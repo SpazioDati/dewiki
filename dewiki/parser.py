@@ -2,6 +2,7 @@
 Created on Jan 12, 2013
 
 @author: dirk dierickx
+modified by Cristian Consonni
 '''
 import re
 
@@ -18,13 +19,16 @@ class Parser(object):
         self.string = ''
         # all the following regex remove all tags that cannot be rendered
         # in text
-        self.wiki_re = re.compile(r"""\[{2}(File|Category):[\s\S]+\]{2}|
-                                        [\s\w#()]+\||
+        self.wiki_re = re.compile(r"""\[{2}(File|Immagine|immagine|Category|Categoria):[\s\S]+\]{2}|
+                                        [\s\w#\(\)]+\||
                                         (\[{2}|\]{2})|
                                         \'{2,5}|
                                         (<s>|<!--)[\s\S]+(</s>|-->)|
                                         {{[\s\S]+}}|
-                                        ^={1,6}|={1,6}$""", re.X)
+                                        ^={1,6}|={1,6}$|
+                                        \<ref[\s\S]*\>[\s\S]*\</ref\>|
+                                        \<ref[\s\S]*/[\s\S]*\>|
+                                        \</?nowiki\>""", re.X)
 
     def __list(self, listmatch):
         return ' ' * (len(listmatch.group()) - 1) + '*'
